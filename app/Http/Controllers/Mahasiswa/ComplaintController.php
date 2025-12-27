@@ -22,23 +22,25 @@ class ComplaintController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'required',
-            'lokasi' => 'required',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'title' => 'required|string|max:255',
+            'category' => 'required',
+            'description' => 'required',
+            'location' => 'required',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $pathFoto = null;
-        if ($request->hasFile('foto')){
-            $pathFoto = $request->file('foto')->store('bukti_laporan', 'public');
+        $pathImage = null;
+        if ($request->hasFile('image')){
+            $pathImage = $request->file('image')->store('bukti_laporan', 'public');
         }
 
         Complaint::create([
             'user_id' => Auth::id(),
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi,
-            'lokasi' => $request->lokasi,
-            'foto' => $pathFoto,
+            'category_id' => $request->category,
+            'title' => $request->title,
+            'description' => $request->description,
+            'location' => $request->location,
+            'image' => $pathImage,
             'status' => 'pending',
         ]);
 
