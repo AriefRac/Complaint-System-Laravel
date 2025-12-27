@@ -11,10 +11,11 @@ class Complaint extends Model
 
     protected $fillable = [
         'user_id',
-        'judul',
-        'deskripsi',
-        'lokasi',
-        'foto',
+        'category_id',
+        'title',
+        'description',
+        'image',
+        'location',
         'status',
     ];
 
