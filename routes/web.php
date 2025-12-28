@@ -13,13 +13,13 @@ Route::get('/', function () {
 });
 
 // Group Mahasiswa
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:mahasiswa'])->group(function () {
     Route::get('/dashboard', [dashboardMahasiswa::class, 'index'])->name('dashboard');
     Route::resource('complaints', ComplaintMahasiswa::class);
 });
 
 // Group Admin
-Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     })->name('dashboard');
