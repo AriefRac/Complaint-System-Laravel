@@ -22,13 +22,12 @@ class CategoryController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'name' => 'required|string|max:255|unique:categories,name',
+            'description' => 'required',
         ]);
 
-        Category::create([
-            'name' => $request->name,
-        ]);
+        Category::create($validateData);
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil dibuat!');
     }
@@ -40,13 +39,12 @@ class CategoryController extends Controller
 
     public function update(Request $request, Category $category)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'name' => 'required|string|max:255',
+            'description' => 'required',
         ]);
 
-        $category->update([
-            'name' => $request->name,
-        ]);
+        $category->update($validateData);
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori berhasil diperbarui!');
     }
