@@ -21,7 +21,7 @@
 
         <!-- Navigation -->
         <nav class="space-y-2">
-            <a href="#"
+            <a href="{{ route('admin.dashboard') }}"
                 class="flex items-center px-3 py-2.5 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -29,7 +29,7 @@
                 </svg>
                 Dashboard
             </a>
-            <a href="#"
+            <a href="{{ route('admin.categories.index') }}"
                 class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -39,7 +39,7 @@
                 <span
                     class="ml-auto bg-red-100 text-red-800 text-xs font-semibold px-2 py-0.5 rounded-full dark:bg-red-900 dark:text-red-200">12</span>
             </a>
-            <a href="#"
+            <a href="{{ route('admin.categories.index') }}"
                 class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -47,7 +47,7 @@
                 </svg>
                 Kategori
             </a>
-            <a href="#"
+            <a href="{{ route('admin.users.index') }}"
                 class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                 <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
