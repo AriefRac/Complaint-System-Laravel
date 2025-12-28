@@ -48,6 +48,15 @@
                 <img class="w-8 h-8 rounded-full"
                     src="https://ui-avatars.com/api/?name=Admin+User&background=3b82f6&color=fff" alt="Admin">
             </button>
+
+            <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display: none;">
+                @csrf
+            </form>
+
+            <a href="{{ route('logout') }}"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                Keluar / Logout
+            </a>
         </div>
     </div>
 </nav>
