@@ -8,14 +8,25 @@ use Illuminate\Http\Request;
 
 class ComplaintController extends Controller
 {
-    public function updateStatus(Request $request, $id)
+    public function index()
     {
-        $pengaduan = Complaint::findOrFail($id);
+        $complaints = Complaint::latest()->get();
 
-        $pengaduan->update([
-            'status' => $request->status
+        return view('admin.complaint.index', compact('complaints'));
+    }
+
+    public function update(Request $request, Complaint $complaint)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,proses,selesai,ditolak',
+            'priority' => 'required|in:low,medium,high,urgent',
         ]);
 
-        return redirect()->back()->with('success', 'Status laporan berhasil diperbarui!');
+        $complaint->update([
+            'status' => $request->status,
+            'priority' => $request->priority,
+        ]);
+
+        return back()->with('success', 'Status dan Prioritas diperbarui!');
     }
 }

@@ -18,7 +18,7 @@
             </div>
 
             <div class="hidden md:flex items-center space-x-6">
-                <a href="/student/dashboard"
+                <a href="{{ route('dashboard') }}"
                     class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -26,7 +26,7 @@
                     </svg>
                     <span>Dashboard</span>
                 </a>
-                <a href="/student/complaints"
+                <a href="{{ route('complaints.index') }}"
                     class="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-medium transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -34,7 +34,7 @@
                     </svg>
                     <span>Pengaduan Saya</span>
                 </a>
-                <a href="/student/create"
+                <a href="{{ route('complaints.create') }}"
                     class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-300">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -97,7 +97,8 @@
                             <span>Pengaturan</span>
                         </a>
                         <hr class="my-1 border-gray-200 dark:border-gray-700">
-                        <a href="/logout"
+                        <form method="POST" action="{{ route('logout') }}" id="logout-form" style="display: none;">@csrf</form>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                             class="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
