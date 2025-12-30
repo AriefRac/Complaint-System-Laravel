@@ -27,7 +27,11 @@ class DashboardController extends Controller
             'done' => Complaint::where('status', 'done')->count(),
         ];
 
-        $statPersen = $stats['done']/$stats['total'];
+        $statPersen = 0;
+
+        if ($stats['total'] != 0) {
+            $statPersen = $stats['done']/$stats['total'];
+        }
 
         $categories = Category::get()->all();
 

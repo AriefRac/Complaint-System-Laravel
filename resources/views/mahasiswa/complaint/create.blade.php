@@ -24,7 +24,17 @@
             previewImages: [],
             handleFileUpload(event) {
                 const files = Array.from(event.target.files);
+                const maxSize = 2 * 1024 * 1024;
+                
                 files.forEach(file => {
+                    // 1. Validasi Ukuran File
+                    if (file.size > maxSize) {
+                        alert('Ukuran file terlalu besar! Maksimal 2MB.');
+                        event.target.value = ''; // Reset input file
+                        this.previewImages = []; // Reset preview jika ada
+                        return; // Hentikan proses
+                    }
+
                     if (file.type.startsWith('image/')) {
                         const reader = new FileReader();
                         reader.onload = (e) => {
@@ -37,10 +47,11 @@
             removeImage(index) {
                 this.previewImages.splice(index, 1);
             },
-        }"  class="space-y-6">
-        @csrf
+        }" class="space-y-6">
+            @csrf
 
-            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6">
+            <div
+                class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 space-y-6">
                 <div>
                     <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4">Masukkan Informasi Kerusakan</h3>
 

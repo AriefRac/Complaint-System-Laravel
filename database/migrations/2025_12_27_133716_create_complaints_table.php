@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('location');
             $table->enum('priority', ['low', 'medium', 'high', 'urgent'])->default('medium');
             $table->enum('status', ['pending', 'verified', 'in_progress', 'resolved', 'rejected'])->default('pending');
+            $table->text('admin_note')->nullable();
             $table->timestamps();
         });
     }

@@ -1,78 +1,50 @@
 {{-- resources/views/components/complaint-table-row.blade.php --}}
-@props(['id', 'title', 'category', 'reporter', 'date', 'priority', 'status', 'detailId'])
+{{-- Tambahkan 'rowData' di props --}}
+@props(['id', 'title', 'category', 'reporter', 'date', 'priority', 'status', 'detailId', 'rowData']) 
 
 @php
+// Config warna status & prioritas (Biarkan kode PHP kamu yang lama di sini)
 $statusConfig = [
-    'pending' => [
-        'label' => 'Menunggu',
-        'class' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
-    ],
-    'verified' => [
-        'label' => 'Diverifikasi',
-        'class' => 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300',
-    ],
-    'in-progress' => [
-        'label' => 'Proses',
-        'class' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-    ],
-    'resolved' => [
-        'label' => 'Selesai',
-        'class' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-    ],
-    'rejected' => [
-        'label' => 'Ditolak',
-        'class' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-    ],
+    'pending' => ['class' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300', 'label' => 'Menunggu'],
+    'verified' => ['class' => 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300', 'label' => 'Diverifikasi'],
+    'in-progress' => ['class' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300', 'label' => 'Proses'],
+    'resolved' => ['class' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300', 'label' => 'Selesai'],
+    'rejected' => ['class' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300', 'label' => 'Ditolak'],
 ];
 
 $priorityConfig = [
-    'low' => [
-        'label' => 'Rendah',
-        'class' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
-    ],
-    'medium' => [
-        'label' => 'Sedang',
-        'class' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-    ],
-    'high' => [
-        'label' => 'Tinggi',
-        'class' => 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300',
-    ],
-    'urgent' => [
-        'label' => 'Urgent',
-        'class' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
-    ],
+    'low' => ['class' => 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300', 'label' => 'Rendah'],
+    'medium' => ['class' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300', 'label' => 'Sedang'],
+    'high' => ['class' => 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300', 'label' => 'Tinggi'],
+    'urgent' => ['class' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300', 'label' => 'Urgent'],
 ];
 @endphp
 
 <tr class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
-    <td class="px-6 py-4 font-medium text-primary-600 dark:text-primary-400">
-        {{ $id }}
-    </td>
+    {{-- Kolom ID, Judul, Pelapor, Tanggal, Prioritas, Status (Sama seperti kodemu) --}}
+    <td class="px-6 py-4 font-medium text-primary-600 dark:text-primary-400">{{ $id }}</td>
     <td class="px-6 py-4">
         <div>
             <p class="font-medium text-gray-900 dark:text-white">{{ $title }}</p>
             <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ $category }}</p>
         </div>
     </td>
-    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">
-        {{ $reporter }}
-    </td>
-    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">
-        {{ $date }}
-    </td>
+    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">{{ $reporter }}</td>
+    <td class="px-6 py-4 text-gray-600 dark:text-gray-400">{{ $date }}</td>
     <td class="px-6 py-4">
-        <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full {{ $priorityConfig[$priority]['class'] }}">
-            {{ $priorityConfig[$priority]['label'] }}
+        <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full {{ $priorityConfig[$priority]['class'] ?? 'bg-gray-100 text-gray-800' }}">
+            {{ $priorityConfig[$priority]['label'] ?? ucfirst($priority) }}
         </span>
     </td>
     <td class="px-6 py-4">
-        <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full {{ $statusConfig[$status]['class'] }}">
-            {{ $statusConfig[$status]['label'] }}
+        <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-full {{ $statusConfig[$status]['class'] ?? 'bg-gray-100 text-gray-800' }}">
+            {{ $statusConfig[$status]['label'] ?? ucfirst($status) }}
         </span>
     </td>
+    
+    {{-- BUTTON AKSI: Perhatikan bagian $dispatch mengirim 'rowData' --}}
     <td class="px-6 py-4">
-        <button @click="$dispatch('open-complaint-detail', '{{ $detailId }}')" 
+        <button @click="$dispatch('open-complaint-detail', {{ json_encode($rowData) }})" 
                 class="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200"
                 title="Detail & Kelola">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
