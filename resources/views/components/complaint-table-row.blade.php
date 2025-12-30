@@ -1,13 +1,11 @@
-{{-- resources/views/components/complaint-table-row.blade.php --}}
-{{-- Tambahkan 'rowData' di props --}}
 @props(['id', 'title', 'category', 'reporter', 'date', 'priority', 'status', 'detailId', 'rowData']) 
 
 @php
-// Config warna status & prioritas (Biarkan kode PHP kamu yang lama di sini)
+
 $statusConfig = [
     'pending' => ['class' => 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300', 'label' => 'Menunggu'],
     'verified' => ['class' => 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300', 'label' => 'Diverifikasi'],
-    'in-progress' => ['class' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300', 'label' => 'Proses'],
+    'in_progress' => ['class' => 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300', 'label' => 'Proses'],
     'resolved' => ['class' => 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300', 'label' => 'Selesai'],
     'rejected' => ['class' => 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300', 'label' => 'Ditolak'],
 ];
@@ -21,7 +19,6 @@ $priorityConfig = [
 @endphp
 
 <tr class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50">
-    {{-- Kolom ID, Judul, Pelapor, Tanggal, Prioritas, Status (Sama seperti kodemu) --}}
     <td class="px-6 py-4 font-medium text-primary-600 dark:text-primary-400">{{ $id }}</td>
     <td class="px-6 py-4">
         <div>
@@ -42,7 +39,6 @@ $priorityConfig = [
         </span>
     </td>
     
-    {{-- BUTTON AKSI: Perhatikan bagian $dispatch mengirim 'rowData' --}}
     <td class="px-6 py-4">
         <button @click="$dispatch('open-complaint-detail', {{ json_encode($rowData) }})" 
                 class="p-2 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors duration-200"

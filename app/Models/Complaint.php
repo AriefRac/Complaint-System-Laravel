@@ -17,6 +17,8 @@ class Complaint extends Model
         'image',
         'location',
         'status',
+        'priority',
+        'admin_note',
     ];
 
     public function user(){

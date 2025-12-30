@@ -72,7 +72,7 @@
                 <select name="status" onchange="this.form.submit()" class="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                     <option value="">Semua Status</option>
                     <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu</option>
-                    <option value="in-progress" {{ request('status') == 'in-progress' ? 'selected' : '' }}>Proses</option>
+                    <option value="in_progress" {{ request('status') == 'in_progress' ? 'selected' : '' }}>Proses</option>
                     <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Selesai</option>
                     <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Ditolak</option>
                 </select>

@@ -7,11 +7,10 @@
     priorityUpdate: '',
     note: '',
     
-    // 1. DEFINISI KONFIGURASI WARNA & LABEL (SAMA SEPERTI DI PHP TABLE)
     statusConfig: {
         'pending': { class: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300', label: 'Menunggu' },
         'verified': { class: 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900 dark:text-cyan-300', label: 'Diverifikasi' },
-        'in-progress': { class: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300', label: 'Proses' },
+        'in_progress': { class: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300', label: 'Proses' },
         'resolved': { class: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300', label: 'Selesai' },
         'rejected': { class: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300', label: 'Ditolak' }
     },
@@ -142,7 +141,7 @@
                                         class="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                                     <option value="pending">Menunggu</option>
                                     <option value="verified">Diverifikasi</option>
-                                    <option value="in-progress">Proses</option>
+                                    <option value="in_progress">Proses</option>
                                     <option value="resolved">Selesai</option>
                                     <option value="rejected">Ditolak</option>
                                 </select>
