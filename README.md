@@ -1,4 +1,7 @@
 # 📢 Complaint System Laravel
+![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
 
 Sistem Pengaduan Fasilitas Kampus berbasis web menggunakan **Laravel**, **Tailwind CSS**, dan **MySQL/MariaDB**.  
 Aplikasi ini dibuat untuk memudahkan mahasiswa dalam melaporkan permasalahan fasilitas kampus serta membantu pihak pengelola dalam menindaklanjuti laporan secara terstruktur.
