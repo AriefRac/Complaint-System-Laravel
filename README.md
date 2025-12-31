@@ -1,76 +1,136 @@
-# Sistem Pengaduan Fasilitas Kampus - UIN SMH Banten
+# 📢 Complaint System Laravel
 
-![Laravel](https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
-![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
+Sistem Pengaduan Fasilitas Kampus berbasis web menggunakan **Laravel**, **Tailwind CSS**, dan **MySQL/MariaDB**.  
+Aplikasi ini dibuat untuk memudahkan mahasiswa dalam melaporkan permasalahan fasilitas kampus serta membantu pihak pengelola dalam menindaklanjuti laporan secara terstruktur.
 
-Sistem informasi berbasis web yang dirancang untuk mempermudah mahasiswa UIN Sultan Maulana Hasanuddin (SMH) Banten dalam melaporkan kerusakan atau masalah fasilitas kampus. Aplikasi ini bertujuan untuk mempercepat proses penanganan keluhan oleh pihak kampus secara transparan.
+---
 
-## 🚀 Fitur Utama
+## 🚀 Tech Stack
 
-Sistem ini memiliki 3 hak akses (Role) dengan fungsionalitas berbeda:
+- **Framework** : Laravel (PHP)
+- **Frontend** : Blade Template + Tailwind CSS
+- **Build Tool** : Vite
+- **Database** : MySQL / MariaDB
+- **Package Manager** :
+  - Composer (PHP)
+  - NPM (Node.js)
 
-### 1. Mahasiswa (Pelapor)
-- **Buat Pengaduan:** Melaporkan kerusakan fasilitas dengan deskripsi detail.
-- **Upload Bukti:** Menyertakan foto bukti kerusakan (Image Upload).
-- **Tracking Status:** Memantau status laporan (Pending, Proses, Selesai) secara *real-time*.
-- **Riwayat:** Melihat histori pengaduan yang pernah dibuat.
+> 📌 *MariaDB bersifat MySQL-compatible, sehingga tetap menggunakan konfigurasi `DB_CONNECTION=mysql`.*
 
-### 2. Staff (Petugas)
-- **Verifikasi Laporan:** Memeriksa validitas laporan yang masuk.
-- **Update Status:** Mengubah status pengerjaan (Misal: dari *Pending* ke *Sedang Dikerjakan*).
-- **Tanggapan:** Memberikan respon atau balasan atas laporan mahasiswa.
+---
 
-### 3. Administrator
-- **Manajemen Pengguna (CRUD):** Mengelola akun Mahasiswa, Staff, dan Admin.
-- **Manajemen Kategori:** Mengatur kategori pengaduan (misal: Kelistrikan, Kebersihan, Sarana Kelas).
+## ✨ Fitur
 
-## 🛠️ Teknologi yang Digunakan
+### 👨‍🎓 Mahasiswa
+- Mengirim pengaduan fasilitas
+- Upload foto bukti
+- Melihat status pengaduan (Pending / Proses / Selesai)
+- Riwayat pengaduan
 
-- **Framework:** Laravel 12 (Dev/Latest)
-- **Bahasa:** PHP 8.5
-- **Database:** MariaDB
-- **Frontend:** Blade Templates + Tailwind CSS
-- **Server:** Apache/Nginx
+### 👷 Staff
+- Melihat pengaduan masuk
+- Mengubah status pengaduan
+- Memberikan tanggapan
 
-## ⚙️ Cara Instalasi (Installation)
+### 🛠️ Admin
+- Manajemen user (CRUD)
+- Manajemen kategori pengaduan
+- Kontrol hak akses
 
-Ikuti langkah berikut untuk menjalankan proyek ini di komputer lokal Anda:
+---
 
-1. **Clone Repositori**
-   ```bash
-   git clone [https://github.com/AriefRac/Complaint-System-Laravel.git](https://github.com/AriefRac/Complaint-System-Laravel.git)
-   cd Complaint-System-Laravel
+## 📦 Instalasi & Setup
 
-2. **Install Dependencies**
-    ```bash
-    composer install
-    npm install
+### 1. Clone Repository
+```bash
+git clone https://github.com/AriefRac/Complaint-System-Laravel.git
+cd Complaint-System-Laravel
+```
 
-3. **Konfigurasi Environment Salin file .env.example menjadi .env**
-    ```bash
-    cp .env.example .env
+### 2. Install Dependency
+```bash
+composer install
+npm install
+```
 
-    Buka file .env dan sesuaikan konfigurasi database Anda:
-    DB_CONNECTION=mariadb
-    DB_HOST=127.0.0.1
-    DB_PORT=3306
-    DB_DATABASE=nama_database_anda
-    DB_USERNAME=root
-    DB_PASSWORD=
+### 3. Konfigurasi Environment
+Salin file `.env.example` menjadi `.env`:
+```bash
+cp .env.example .env
+```
 
-4. **Generate App Key**
-    ```bash
-    php artisan key:generate
+Edit konfigurasi database di `.env`:
+```env
+APP_NAME="Complaint System"
+APP_URL=http://localhost:8000
 
-5. **Migrasi Database & Seeder Jalankan perintah ini untuk membuat tabel dan mengisi data akun default:**
-    ```bash
-    php artisan migrate --seed
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-6. **Jalankan Aplikasi Buka dua terminal terpisah untuk menjalankan server dan build asset:**
-    ```bash
-    # Terminal 1
-    php artisan serve
+### 4. Generate Application Key
+```bash
+php artisan key:generate
+```
 
-    # Terminal 2
-    npm run dev
+### 5. Migrasi & Seeder Database
+```bash
+php artisan migrate --seed
+```
+
+### 6. Storage Link (Upload File)
+```bash
+php artisan storage:link
+```
+
+### 7. Jalankan Aplikasi
+```bash
+php artisan serve
+npm run dev
+```
+
+Akses aplikasi di:  
+👉 `http://localhost:8000`
+
+---
+
+## 📁 Struktur Folder
+
+```
+app/                # Controller, Model, Logic
+database/           # Migration & Seeder
+resources/          # Blade View & Asset
+routes/             # Routing Laravel
+public/             # File public
+storage/            # Upload file
+```
+
+---
+
+## 🧪 Akun Default (Jika Ada Seeder)
+
+Silakan cek file `DatabaseSeeder.php` atau tabel `users` di database untuk akun admin/staff default.
+
+---
+
+## 📝 Catatan Pengembangan
+
+- Gunakan `npm run dev` saat development
+- Gunakan `npm run build` untuk production
+- Tailwind CSS dikonfigurasi di `tailwind.config.js`
+- Vite dikonfigurasi di `vite.config.js`
+
+---
+
+## 📄 Lisensi
+
+Proyek ini menggunakan lisensi **MIT** dan bebas dikembangkan untuk keperluan akademik maupun non-komersial.
+
+---
+
+Dikembangkan oleh **Muhamad Arief Rachmatullah**  
+📌 Repository: https://github.com/AriefRac/Complaint-System-Laravel
