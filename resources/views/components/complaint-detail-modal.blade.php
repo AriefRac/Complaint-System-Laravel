@@ -48,7 +48,7 @@
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Detail Pengaduan</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1" x-text="'#' + complaint.id"></p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1" x-text="'ADU-' + complaint.id"></p>
                     </div>
                     <button @click="modalOpen = false" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>

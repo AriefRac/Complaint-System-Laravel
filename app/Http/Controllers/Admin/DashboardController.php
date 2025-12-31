@@ -15,8 +15,8 @@ class DashboardController extends Controller
         $stats = [
             'total' => Complaint::count(),
             'pending' => Complaint::where('status', 'pending')->count(),
-            'process' => Complaint::where('status', 'in-progress')->count(), // sesuaikan value enum di database kamu
-            'done' => Complaint::where('status', 'resolved')->count(),     // sesuaikan value enum di database kamu
+            'in_progress' => Complaint::where('status', 'in_progress')->count(), // sesuaikan value enum di database kamu
+            'resolved' => Complaint::where('status', 'resolved')->count(),     // sesuaikan value enum di database kamu
         ];
 
         $recentComplaints = Complaint::with(['user', 'category'])

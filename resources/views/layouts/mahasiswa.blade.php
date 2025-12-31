@@ -33,12 +33,6 @@
             {{ $slot }}
         </main>
 
-        <!-- Footer -->
-        <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 px-4">
-            <div class="max-w-7xl mx-auto text-center">
-                <p class="text-gray-600 dark:text-gray-400 text-sm">&copy; 2025 FasKampus. All rights reserved.</p>
-            </div>
-        </footer>
     </div>
 
     <style>

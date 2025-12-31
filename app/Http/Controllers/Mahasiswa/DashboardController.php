@@ -21,15 +21,14 @@ class DashboardController extends Controller
 
         $stats = [
             'total' => Complaint::where('user_id', $userId)->count(),
-            'pending' => Complaint::where('status', 'pending')->count(),
-            'process' => Complaint::where('status', 'process')->count(),
-            'done' => Complaint::where('status', 'done')->count(),
+            'pending' => Complaint::where('user_id', $userId)->where('status', 'pending')->count(),
+            'in_progress' => Complaint::where('user_id', $userId)->where('status', 'in_progress')->count(),
+            'done' => Complaint::where('user_id', $userId)->where('status', 'resolved')->count(),
         ];
 
         $statPersen = 0;
-
-        if ($stats['total'] != 0) {
-            $statPersen = $stats['done']/$stats['total'];
+        if ($stats['total'] > 0) {
+            $statPersen = round(($stats['done'] / $stats['total']) * 100);
         }
 
         $categories = Category::get()->all();

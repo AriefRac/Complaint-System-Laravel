@@ -29,14 +29,6 @@
                     </svg>
                     <span>Pengaduan Saya</span>
                 </a>
-                <a href="{{ route('complaints.create') }}"
-                    class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg shadow-lg transition-all duration-300">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                    </svg>
-                    <span>Buat Laporan</span>
-                </a>
             </div>
 
             <div class="flex items-center space-x-3">

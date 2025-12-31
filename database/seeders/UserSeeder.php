@@ -24,7 +24,14 @@ class UserSeeder extends Seeder
         // Staff
         User::create([
             'name' => 'Petugas Fasilitas',
-            'email' => 'staff@kampus.ac.id',
+            'email' => 'staff1@kampus.ac.id',
+            'role' => 'staff',
+            'password' => Hash::make('staff123'),
+        ]);
+
+        User::create([
+            'name' => 'Petugas Fasilitas',
+            'email' => 'staff2@kampus.ac.id',
             'role' => 'staff',
             'password' => Hash::make('staff123'),
         ]);
@@ -32,9 +39,22 @@ class UserSeeder extends Seeder
         // Mahasiswa
         User::create([
             'name' => 'Muhamad Arief Rachmatullah',
-            'email' => 'mahasiswa@kampus.ac.id',
+            'email' => 'arief@kampus.ac.id',
             'role' => 'mahasiswa',
             'password' => Hash::make('mahasiswa123'),
         ]);
+        
+        $faker = \Faker\Factory::create('id_ID'); 
+        // 3. GENERATE MAHASISWA (50 Orang)
+        for ($i = 1; $i <= 50; $i++) {
+            User::create([
+                'name' => $faker->name,
+                // Email unik: mhs1@..., mhs2@...
+                'email' => 'mhs' . $i . '@kampus.ac.id', 
+                'role' => 'mahasiswa',
+                'password' => Hash::make('password'),
+            ]);
+        }
+
     }
 }

@@ -5,70 +5,58 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('admin.user.index');
-    }
+        // 1. Mulai Query
+        // Kita exclude user yang sedang login agar tidak hapus diri sendiri (opsional)
+        $query = User::where('id', '!=', Auth::id())->latest();
 
-    public function create()
-    {
-        return view('admin.user.create');
-    }
+        // 2. Filter Search (Nama atau Email)
+        if ($request->has('search') && $request->search != '') {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|unique',
-            'role' => 'required',
-            'password' => 'required',
-            'telephone' => 'required|unique',
-        ]);
+        // 3. Filter Role
+        if ($request->has('role') && $request->role != '' && $request->role != 'Semua Role') {
+            // Pastikan value di option select view sesuai dengan value di database (lowercase)
+            $query->where('role', strtolower($request->role));
+        }
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => $request->password,
-            'telephone' => $request->telephone,
-        ]);
+        // 4. Filter Status (Jika ada kolom is_active atau status)
+        if ($request->has('status') && $request->status != '' && $request->status != 'Semua Status') {
+            $isActive = $request->status == 'Aktif' ? 1 : 0; // Sesuaikan dengan logika DB Anda
+            $query->where('is_active', $isActive);
+        }
 
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil dibuat!');
-    }
+        $users = $query->paginate(10)->appends($request->query());
 
-    public function edit(User $user)
-    {
-        return view('admin.user.edit', compact('user'));
-    }
+        // Statistik User
+        $stats = [
+            'total' => User::count(),
+            'admin' => User::where('role', 'admin')->count(),
+            'mahasiswa' => User::where('role', 'mahasiswa')->count(),
+            'dosen' => User::where('role', 'dosen')->count(),
+        ];
 
-    public function update(Request $request, User $user)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|unique',
-            'role' => 'required',
-            'password' => 'required',
-            'telephone' => 'required|unique',
-        ]);
-
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'role' => $request->role,
-            'password' => $request->password,
-            'telephone' => $request->telephone,
-        ]);
-
-        return redirect()->route('admin.users.index')->with('success', 'Kategori berhasil diperbarui!');
+        return view('admin.users.index', compact('users', 'stats'));
     }
 
     public function destroy(User $user)
     {
-        $user->delete();
+        // Cegah hapus diri sendiri (Double protection)
+        if ($user->id == Auth::id()) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun sendiri.');
+        }
 
-        return redirect()->route('admin.users.index')->with('success', 'Kategori berhasil dihapus!');
+        $user->delete();
+        return back()->with('success', 'Pengguna berhasil dihapus.');
     }
 }

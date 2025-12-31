@@ -41,7 +41,7 @@ class ComplaintController extends Controller
         $stats = [
             'total' => Complaint::count(),
             'pending' => Complaint::where('status', 'pending')->count(),
-            'process' => Complaint::where('status', 'in-progress')->count(),
+            'process' => Complaint::where('status', 'in_progress')->count(),
             'done' => Complaint::where('status', 'resolved')->count(),
         ];
 

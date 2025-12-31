@@ -27,7 +27,7 @@
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <x-stat-card title="Total Laporan" value="{{ $stats['total'] }}" icon="clipboard-list" color="blue-gradient" />
-            <x-stat-card title="Dalam Proses" value="{{ $stats['process'] }}" icon="clock" color="yellow-gradient" />
+            <x-stat-card title="Dalam Proses" value="{{ $stats['in_progress'] }}" icon="clock" color="yellow-gradient" />
             <x-stat-card title="Selesai" value="{{ $stats['done'] }}" icon="check-circle" color="green-gradient" />
             <x-stat-card title="Tingkat Selesai" value="{{ $statPersen }}%" icon="trend" color="indigo-gradient" />
         </div>

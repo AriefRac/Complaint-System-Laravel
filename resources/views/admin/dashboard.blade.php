@@ -6,8 +6,8 @@
     <div class="grid grid-cols-1 gap-6 mb-6 md:grid-cols-2 lg:grid-cols-4">
         <x-stat-card title="Total Pengaduan" value="{{$stats['total']}}" icon="clipboard-list" color="blue" />
         <x-stat-card title="Menunggu Verifikasi" value="{{$stats['pending']}}" icon="clock" color="yellow" />
-        <x-stat-card title="Dalam Proses" value="{{$stats['process']}}" icon="cog" color="indigo" />
-        <x-stat-card title="Selesai" value="{{$stats['done']}}" icon="check-circle" color="green" />
+        <x-stat-card title="Dalam Proses" value="{{$stats['in_progress']}}" icon="cog" color="indigo" />
+        <x-stat-card title="Selesai" value="{{$stats['resolved']}}" icon="check-circle" color="green" />
     </div>
 
     <div class="grid grid-cols-1 gap-6 mb-6 lg:grid-cols-3">

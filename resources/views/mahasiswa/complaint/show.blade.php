@@ -2,28 +2,65 @@
     <x-slot name="title">Detail Pengaduan #{{ $complaint->id }}</x-slot>
 
     @php
+        // Konfigurasi Status (Sudah Benar)
         $statusConfig = [
-            'pending' => ['class' => 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300', 'label' => 'Menunggu'],
-            'process' => ['class' => 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300', 'label' => 'Diproses'],
-            'done' => ['class' => 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300', 'label' => 'Selesai'],
-            'rejected' => ['class' => 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300', 'label' => 'Ditolak'],
+            'pending' => [
+                'class' => 'bg-amber-100 text-amber-800 border-amber-200 dark:bg-amber-900/30 dark:text-amber-300', 
+                'label' => 'Menunggu'
+            ],
+            'verified' => [
+                'class' => 'bg-cyan-100 text-cyan-800 border-cyan-200 dark:bg-cyan-900/30 dark:text-cyan-300 dark:border-cyan-800', 
+                'label' => 'Verifikasi'
+            ],
+            'in_progress' => [
+                'class' => 'bg-blue-100 text-blue-800 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300', 
+                'label' => 'Diproses'
+            ],
+            'resolved' => [
+                'class' => 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900/30 dark:text-green-300', 
+                'label' => 'Selesai'
+            ],
+            'rejected' => [
+                'class' => 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900/30 dark:text-red-300', 
+                'label' => 'Ditolak'
+            ],
         ];
+
         $currentStatus = $statusConfig[$complaint->status] ?? $statusConfig['pending'];
         
+        // PERBAIKAN DI SINI: Priority Config sekarang menampung Label Indonesia
         $priorityConfig = [
-            'high' => 'text-red-600 bg-red-50 border-red-200',
-            'medium' => 'text-amber-600 bg-amber-50 border-amber-200',
-            'low' => 'text-green-600 bg-green-50 border-green-200',
+            'urgent' => [
+                'class' => 'text-purple-600 bg-purple-50 border-purple-200 dark:text-purple-300 dark:bg-purple-900/30 dark:border-purple-800',
+                'label' => 'Mendesak'
+            ],
+            'high' => [
+                'class' => 'text-red-600 bg-red-50 border-red-200 dark:text-red-300 dark:bg-red-900/30 dark:border-red-800',
+                'label' => 'Tinggi'
+            ],
+            'medium' => [
+                'class' => 'text-amber-600 bg-amber-50 border-amber-200 dark:text-amber-300 dark:bg-amber-900/30 dark:border-amber-800',
+                'label' => 'Sedang'
+            ],
+            'low' => [
+                'class' => 'text-green-600 bg-green-50 border-green-200 dark:text-green-300 dark:bg-green-900/30 dark:border-green-800',
+                'label' => 'Rendah'
+            ],
         ];
-        $currentPriority = $priorityConfig[$complaint->priority] ?? 'text-gray-600';
+        
+        // Fallback jika priority tidak ditemukan
+        $currentPriority = $priorityConfig[$complaint->priority] ?? [
+            'class' => 'text-gray-600 bg-gray-50 border-gray-200', 
+            'label' => 'Tidak Diketahui'
+        ];
     @endphp
 
     <div class="max-w-4xl mx-auto px-4 py-8">
-        <a href="{{ route('dashboard') }}" class="inline-flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 mb-6 transition-colors">
+        <a href="{{ route('complaints.index') }}" class="inline-flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 mb-6 transition-colors">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
-            Kembali ke Dashboard
+            Kembali ke Daftar
         </a>
 
         <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -35,7 +72,7 @@
                             {{ $currentStatus['label'] }}
                         </span>
                         <span class="text-sm text-gray-500 dark:text-gray-400 font-mono">
-                            #{{ str_pad($complaint->id, 4, '0', STR_PAD_LEFT) }}
+                            ADU-{{ $complaint->id }}
                         </span>
                     </div>
                     <h1 class="text-2xl font-bold text-gray-900 dark:text-white leading-tight">
@@ -84,8 +121,9 @@
                     </div>
                     <div>
                         <p class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Prioritas</p>
-                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border {{ $currentPriority }}">
-                            {{ ucfirst($complaint->priority) }}
+                        {{-- Menggunakan class dan label dari array baru --}}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border {{ $currentPriority['class'] }}">
+                            {{ $currentPriority['label'] }}
                         </span>
                     </div>
                 </div>
@@ -108,7 +146,6 @@
                             Foto Bukti
                         </h3>
                         <div class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-900">
-                            {{-- Pastikan sudah menjalankan php artisan storage:link --}}
                             <a href="{{ asset('storage/' . $complaint->image) }}" target="_blank">
                                 <img src="{{ asset('storage/' . $complaint->image) }}" 
                                      alt="Bukti Laporan" 
@@ -122,9 +159,22 @@
                         <p class="text-gray-500 dark:text-gray-400 italic">Tidak ada foto bukti yang dilampirkan.</p>
                     </div>
                 @endif
+                
+                {{-- Catatan Admin --}}
+                @if($complaint->admin_note)
+                    <div class="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+                        <h4 class="text-sm font-bold text-blue-800 dark:text-blue-300 mb-2 flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            Catatan Petugas
+                        </h4>
+                        <p class="text-sm text-blue-700 dark:text-blue-200 whitespace-pre-line">
+                            {{ $complaint->admin_note }}
+                        </p>
+                    </div>
+                @endif
             </div>
-
-            {{-- Jika nanti ada fitur balasan admin, taruh disini --}}
         </div>
     </div>
 </x-mahasiswa-layout>

@@ -10,7 +10,7 @@
                     <p class="text-gray-600 dark:text-gray-400 mt-1">Kelola dan pantau status pengaduan fasilitas Anda
                     </p>
                 </div>
-                <a href="/student/complaints/create"
+                <a href="{{ route('complaints.create') }}"
                     class="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -59,7 +59,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-purple-100 text-sm font-medium mb-1">Dalam Proses</p>
-                        <p class="text-3xl font-bold">{{ $stats['process'] }}</p>
+                        <p class="text-3xl font-bold">{{ $stats['in_progress'] }}</p>
                     </div>
                     <div class="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -88,64 +88,52 @@
         </div>
 
         <!-- Filter & Search -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6"
-            x-data="{
-            searchQuery: '',
-            selectedStatus: 'all',
-            selectedCategory: 'all',
-            selectedPriority: 'all',
-            sortBy: 'newest'
-        }">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <!-- Search -->
-                <div class="md:col-span-2">
-                    <div class="relative">
-                        <input type="text" x-model="searchQuery" placeholder="Cari pengaduan..."
-                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 mb-6">
+    {{-- FORM GET --}}
+    <form method="GET" action="{{ route('complaints.index') }}">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            
+            <div class="md:col-span-2">
+                <div class="relative">
+                    <input type="text" name="search" value="{{ request('search') }}" 
+                        placeholder="Cari pengaduan..."
+                        class="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    
+                    {{-- Icon Search (Klik untuk submit) --}}
+                    <button type="submit" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                    </div>
+                    </button>
                 </div>
+            </div>
 
-                <!-- Status Filter -->
-                <div>
-                    <select x-model="selectedStatus"
-                        class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                        <option value="all">Semua Status</option>
-                        <option value="pending">Menunggu</option>
-                        <option value="verified">Ditinjau</option>
-                        <option value="in_progress">Dalam Proses</option>
-                        <option value="resolve">Selesai</option>
-                        <option value="rejected">Ditolak</option>
-                    </select>
-                </div>
+            <div>
+                <select name="status" onchange="this.form.submit()"
+                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    <option value="all">Semua Status</option>
+                    <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Menunggu</option>
+                    <option value="verified" {{ request('status') == 'verified' ? 'selected' : '' }}>Ditinjau</option>
+                    <option value="in-progress" {{ request('status') == 'in-progress' ? 'selected' : '' }}>Dalam Proses</option>
+                    <option value="resolved" {{ request('status') == 'resolved' ? 'selected' : '' }}>Selesai</option>
+                    <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Ditolak</option>
+                </select>
+            </div>
 
-                <!-- Category Filter -->
-                <div>
-                    <select x-model="selectedCategory"
-                        class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                        <option value="all">Semua Kategori</option>
-                        @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Sort -->
-                {{-- <div>
-                    <select x-model="sortBy"
-                        class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent">
-                        <option value="newest">Terbaru</option>
-                        <option value="oldest">Terlama</option>
-                        <option value="priority">Prioritas</option>
-                        <option value="status">Status</option>
-                    </select>
-                </div> --}}
+            <div>
+                <select name="category" onchange="this.form.submit()"
+                    class="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+                    <option value="all">Semua Kategori</option>
+                    @foreach ($categories as $category)
+                        <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>
+                            {{ $category->name }}
+                        </option>
+                    @endforeach
+                </select>
             </div>
         </div>
+    </form>
+</div>
 
         <!-- Complaints List -->
         <div class="space-y-4">
@@ -183,30 +171,75 @@
         </div>
 
         <!-- Pagination -->
-        <div class="mt-8 flex items-center justify-between">
+        <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="text-sm text-gray-600 dark:text-gray-400">
-                Menampilkan <span class="font-medium">1-5</span> dari <span class="font-medium">24</span> pengaduan
+                Menampilkan
+                <span class="font-medium">{{ $complaints->firstItem() ?? 0 }}</span>
+                sampai
+                <span class="font-medium">{{ $complaints->lastItem() ?? 0 }}</span>
+                dari
+                <span class="font-medium">{{ $complaints->total() }}</span>
+                pengaduan
             </div>
+
             <div class="flex items-center space-x-2">
-                <button
-                    class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                    disabled>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                <button
-                    class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium">1</button>
-                <button
-                    class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">2</button>
-                <button
-                    class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">3</button>
-                <button
-                    class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
+
+                {{-- TOMBOL PREVIOUS --}}
+                @if ($complaints->onFirstPage())
+                    {{-- Tampilan Disabled (Jika di Halaman 1) --}}
+                    <button disabled
+                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-400 dark:text-gray-600 cursor-not-allowed bg-gray-50 dark:bg-gray-800">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                @else
+                    {{-- Tampilan Aktif (Bisa diklik) --}}
+                    <a href="{{ $complaints->previousPageUrl() }}"
+                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </a>
+                @endif
+
+                {{-- TOMBOL NOMOR HALAMAN (LOOPING) --}}
+                {{-- Kita batasi link agar tidak terlalu panjang jika halaman banyak --}}
+                @foreach ($complaints->getUrlRange(max(1, $complaints->currentPage() - 2), min($complaints->lastPage(), $complaints->currentPage() + 2)) as $page => $url)
+                    @if ($page == $complaints->currentPage())
+                        {{-- Style Halaman Aktif (Gradient Biru-Ungu) --}}
+                        <span
+                            class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-medium shadow-md">
+                            {{ $page }}
+                        </span>
+                    @else
+                        {{-- Style Halaman Tidak Aktif --}}
+                        <a href="{{ $url }}"
+                            class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            {{ $page }}
+                        </a>
+                    @endif
+                @endforeach
+
+                {{-- TOMBOL NEXT --}}
+                @if ($complaints->hasMorePages())
+                    {{-- Tampilan Aktif (Bisa diklik) --}}
+                    <a href="{{ $complaints->nextPageUrl() }}"
+                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors flex items-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </a>
+                @else
+                    {{-- Tampilan Disabled (Jika di Halaman Terakhir) --}}
+                    <button disabled
+                        class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-400 dark:text-gray-600 cursor-not-allowed bg-gray-50 dark:bg-gray-800">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                @endif
+
             </div>
         </div>
     </div>
