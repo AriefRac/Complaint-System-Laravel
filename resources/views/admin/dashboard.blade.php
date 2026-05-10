@@ -23,7 +23,8 @@
                             :category="$complaint->category->name ?? 'Tanpa Kategori'"
                             :user="$complaint->user->name ?? 'User Terhapus'"
                             :status="$complaint->status" 
-                            :priority="$complaint->priority ?? 'medium'" />
+                            :priority="$complaint->priority ?? 'medium'"
+                            :complaintId="$complaint->id" />
                     @endforeach
 
                 </div>
