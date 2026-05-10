@@ -235,5 +235,8 @@
         </div>
     </div>
 
+    {{-- Complaint Detail Modal --}}
+    <x-complaint-detail-modal />
+
 </body>
 </html>
