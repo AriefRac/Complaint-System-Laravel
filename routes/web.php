@@ -33,6 +33,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->name('admin.')->grou
 
     Route::resource('categories', CategoryController::class);
     Route::resource('users', UserController::class);
+    
+    // Complaint routes
+    Route::get('/complaints/{complaint}/data', [ComplaintAdmin::class, 'getData'])->name('complaints.data');
     Route::resource('complaints', ComplaintAdmin::class);
 });
 

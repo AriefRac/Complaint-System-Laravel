@@ -51,6 +51,14 @@ class ComplaintController extends Controller
     }
 
 
+    public function getData(Complaint $complaint)
+    {
+        // Load relationships
+        $complaint->load(['user', 'category']);
+        
+        return response()->json($complaint);
+    }
+
     public function update(Request $request, Complaint $complaint)
     {
         $request->validate([

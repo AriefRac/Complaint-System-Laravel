@@ -94,10 +94,10 @@
             </span>
         </div>
     </div>
-    <a href="{{ route('admin.complaints.index') }}?search={{ $complaintId }}"
+    <button @click="$dispatch('open-complaint-detail', {{ json_encode($complaintId) }})"
         class="flex-shrink-0 p-2 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors duration-200">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
-    </a>
+    </button>
 </div>

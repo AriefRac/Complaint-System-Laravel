@@ -29,12 +29,20 @@
     }
 }" 
 @open-complaint-detail.window="
-    complaint = $event.detail; 
-    statusUpdate = complaint.status; 
-    priorityUpdate = complaint.priority;
-    note = ''; 
-    modalOpen = true;
-    activeTab = 'detail';
+    fetch(`/admin/complaints/${$event.detail}/data`)
+        .then(response => response.json())
+        .then(data => {
+            complaint = data;
+            statusUpdate = complaint.status;
+            priorityUpdate = complaint.priority;
+            note = complaint.admin_note || '';
+            modalOpen = true;
+            activeTab = 'detail';
+        })
+        .catch(error => {
+            console.error('Error fetching complaint:', error);
+            alert('Gagal memuat data pengaduan');
+        });
 "
 @keydown.escape.window="modalOpen = false">
 
