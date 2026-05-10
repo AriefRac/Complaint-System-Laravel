@@ -30,11 +30,11 @@ class UserController extends Controller
             $query->where('role', strtolower($request->role));
         }
 
-        // 4. Filter Status (Jika ada kolom is_active atau status)
-        if ($request->has('status') && $request->status != '' && $request->status != 'Semua Status') {
-            $isActive = $request->status == 'Aktif' ? 1 : 0; // Sesuaikan dengan logika DB Anda
-            $query->where('is_active', $isActive);
-        }
+        // 4. Filter Status - Disabled (kolom is_active tidak ada di tabel users)
+        // if ($request->has('status') && $request->status != '' && $request->status != 'Semua Status') {
+        //     $isActive = $request->status == 'Aktif' ? 1 : 0;
+        //     $query->where('is_active', $isActive);
+        // }
 
         $users = $query->paginate(10)->appends($request->query());
 
@@ -43,7 +43,7 @@ class UserController extends Controller
             'total' => User::count(),
             'admin' => User::where('role', 'admin')->count(),
             'mahasiswa' => User::where('role', 'mahasiswa')->count(),
-            'dosen' => User::where('role', 'dosen')->count(),
+            'staff' => User::where('role', 'staff')->count(),
         ];
 
         return view('admin.users.index', compact('users', 'stats'));

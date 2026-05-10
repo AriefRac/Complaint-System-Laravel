@@ -7,10 +7,18 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Mahasiswa\ComplaintController as ComplaintMahasiswa;
 use App\Http\Controllers\Mahasiswa\DashboardController as DashboardMahasiswa;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        $user = Auth::user();
+        if ($user->role === 'admin' || $user->role === 'staff') {
+            return redirect()->route('admin.dashboard');
+        }
+        return redirect()->route('dashboard');
+    }
+    return redirect()->route('login');
 });
 
 // Group Mahasiswa

@@ -25,20 +25,28 @@ Aplikasi ini dibuat untuk memudahkan mahasiswa dalam melaporkan permasalahan fas
 ## ✨ Fitur
 
 ### 👨‍🎓 Mahasiswa
-- Mengirim pengaduan fasilitas
-- Upload foto bukti
-- Melihat status pengaduan (Pending / Proses / Selesai)
-- Riwayat pengaduan
+- ✅ Mengirim pengaduan fasilitas dengan kategori
+- ✅ Upload foto bukti (JPEG, PNG, JPG - Max 2MB)
+- ✅ Melihat status pengaduan (Pending / In Progress / Resolved)
+- ✅ Edit & hapus pengaduan (hanya status Pending)
+- ✅ Filter & pencarian pengaduan
+- ✅ Dashboard dengan statistik pengaduan
+- ✅ Riwayat pengaduan lengkap
 
-### 👷 Staff
-- Melihat pengaduan masuk
-- Mengubah status pengaduan
-- Memberikan tanggapan
+### 👔 Staff
+- ✅ Melihat semua pengaduan masuk
+- ✅ Mengubah status pengaduan
+- ✅ Mengatur prioritas (Low / Medium / High)
+- ✅ Memberikan catatan admin
+- ✅ Filter berdasarkan status, prioritas, dan kategori
+- ✅ Dashboard dengan statistik lengkap
 
 ### 🛠️ Admin
-- Manajemen user (CRUD)
-- Manajemen kategori pengaduan
-- Kontrol hak akses
+- ✅ Semua fitur Staff
+- ✅ Manajemen user (View & Delete)
+- ✅ Manajemen kategori pengaduan (CRUD)
+- ✅ Filter user berdasarkan role
+- ✅ Statistik user berdasarkan role
 
 ---
 
@@ -114,9 +122,19 @@ storage/            # Upload file
 
 ---
 
-## 🧪 Akun Default (Jika Ada Seeder)
+## 🧪 Akun Default (Seeder)
 
-Silakan cek file `DatabaseSeeder.php` atau tabel `users` di database untuk akun admin/staff default.
+Setelah menjalankan `php artisan migrate --seed`, Anda dapat login dengan akun berikut:
+
+| Role | Email | Password |
+|------|-------|----------|
+| **Admin** | admin@kampus.ac.id | admin123 |
+| **Staff** | staff1@kampus.ac.id | staff123 |
+| **Staff** | staff2@kampus.ac.id | staff123 |
+| **Mahasiswa** | arief@kampus.ac.id | mahasiswa123 |
+| **Mahasiswa** | mhs1@kampus.ac.id - mhs50@kampus.ac.id | password |
+
+> 📌 *Seeder akan membuat 1 admin, 2 staff, dan 51 mahasiswa secara otomatis.*
 
 ---
 
@@ -126,6 +144,59 @@ Silakan cek file `DatabaseSeeder.php` atau tabel `users` di database untuk akun 
 - Gunakan `npm run build` untuk production
 - Tailwind CSS dikonfigurasi di `tailwind.config.js`
 - Vite dikonfigurasi di `vite.config.js`
+
+---
+
+## 🔧 Troubleshooting
+
+### Error: "No application encryption key has been specified"
+```bash
+php artisan key:generate
+```
+
+### Error: Storage link tidak berfungsi
+```bash
+php artisan storage:link
+```
+
+### Error: Gambar tidak muncul setelah upload
+Pastikan sudah menjalankan:
+```bash
+php artisan storage:link
+```
+Dan cek folder `storage/app/public/bukti_laporan` sudah ada.
+
+### Error: npm run dev gagal
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 📸 Screenshot
+
+### Dashboard Mahasiswa
+Menampilkan statistik pengaduan dan daftar pengaduan yang telah dibuat.
+
+### Dashboard Admin/Staff
+Menampilkan semua pengaduan dari seluruh mahasiswa dengan fitur filter lengkap.
+
+### Form Pengaduan
+Form untuk membuat pengaduan baru dengan upload foto bukti.
+
+---
+
+## 🚀 Fitur Tambahan yang Bisa Dikembangkan
+
+- [ ] Notifikasi real-time menggunakan WebSocket
+- [ ] Export laporan ke PDF/Excel
+- [ ] Sistem rating untuk pengaduan yang selesai
+- [ ] Upload multiple images
+- [ ] Chat/komentar pada pengaduan
+- [ ] Email notification
+- [ ] Dashboard analytics dengan chart
+- [ ] Mobile responsive optimization
 
 ---
 

@@ -46,7 +46,7 @@ class ComplaintController extends Controller
         $stats = [
             'total' => Complaint::where('user_id', $userId)->count(),
             'pending' => Complaint::where('user_id', $userId)->where('status', 'pending')->count(),
-            'in_progress' => Complaint::where('user_id', $userId)->where('status', 'in-progress')->count(),
+            'in_progress' => Complaint::where('user_id', $userId)->where('status', 'in_progress')->count(),
             'done' => Complaint::where('user_id', $userId)->where('status', 'resolved')->count(),
         ];
 
@@ -72,7 +72,7 @@ class ComplaintController extends Controller
 
     public function store(Request $request)
     {
-        $validateData = $request->validate([
+        $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'category_id' => 'required',
             'description' => 'required',
@@ -81,14 +81,14 @@ class ComplaintController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
-            $validateData['image'] = $request->file('image')->store('bukti_laporan', 'public');
+            $validatedData['image'] = $request->file('image')->store('bukti_laporan', 'public');
         }
 
-        $validateData['user_id'] = Auth::id();
-        $validateData['status'] = 'pending';
-        $validateData['priority'] = 'medium'; 
+        $validatedData['user_id'] = Auth::id();
+        $validatedData['status'] = 'pending';
+        $validatedData['priority'] = 'medium'; 
 
-        Complaint::create($validateData);
+        Complaint::create($validatedData);
 
         return redirect()->route('dashboard')->with('success', 'Laporan berhasil dikirim!');
     }
@@ -131,17 +131,17 @@ class ComplaintController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ];
 
-        $validateData = $request->validate($rules);
+        $validatedData = $request->validate($rules);
 
         if ($request->hasFile('image')) {
             if ($complaint->image) {
                 Storage::disk('public')->delete($complaint->image);
             }
 
-            $validateData['image'] = $request->file('image')->store('bukti_laporan', 'public');
+            $validatedData['image'] = $request->file('image')->store('bukti_laporan', 'public');
         }
 
-        $complaint->update($validateData);
+        $complaint->update($validatedData);
 
         return redirect()->route('complaints.index')->with('success', 'Laporan berhasil diperbarui!');
     }
